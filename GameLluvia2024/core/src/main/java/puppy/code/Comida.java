@@ -1,4 +1,4 @@
 package puppy.code;
 
-public class Comida {
+public abstract class Comida {
 }
