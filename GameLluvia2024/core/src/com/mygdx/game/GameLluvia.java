@@ -1,4 +1,4 @@
-package puppy.code;
+package com.mygdx.game;
 
 
 
