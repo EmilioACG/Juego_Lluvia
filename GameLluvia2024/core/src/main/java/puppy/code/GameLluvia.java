@@ -35,9 +35,9 @@ public class GameLluvia extends ApplicationAdapter {
           Texture gota = new Texture(Gdx.files.internal("drop.png"));
           Texture gotaMala = new Texture(Gdx.files.internal("dropBad.png"));
 
-          Texture frutilla = new Texture(Gdx.files.internal("frutilla.png"));
-          Texture naranja = new Texture(Gdx.files.internal("naranja.png"));
-          Texture platano = new Texture(Gdx.files.internal("platano.png"));
+          Texture brocoli = new Texture(Gdx.files.internal("brocoli.png"));
+          Texture berenjena = new Texture(Gdx.files.internal("berenjena.png"));
+          Texture coliflor = new Texture(Gdx.files.internal("coliflor.png"));
           Texture frugele = new Texture(Gdx.files.internal("frugele.png"));
           Texture superocho = new Texture(Gdx.files.internal("superocho.png"));
           Texture picodulce = new Texture(Gdx.files.internal("picodulce.png"));
@@ -45,7 +45,7 @@ public class GameLluvia extends ApplicationAdapter {
           Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
           Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("musicaHalloween.mp3"));
 
-          lluvia = new Lluvia(gota, gotaMala,frutilla,naranja,platano,frugele,superocho,picodulce, dropSound, rainMusic);
+          lluvia = new Lluvia(gota, gotaMala,brocoli,berenjena,coliflor,frugele,superocho,picodulce, dropSound, rainMusic);
 
 		  fondoTexture = new Texture(Gdx.files.internal("imagenDeFondo.jpg"));
 

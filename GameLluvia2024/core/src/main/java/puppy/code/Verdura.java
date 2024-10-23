@@ -1,9 +1,9 @@
 package puppy.code;
 
-public class Fruta extends Comida{
+public class Verdura extends Comida{
     int puntuacionBase;
 
-    public Fruta(String nombre) {
+    public Verdura(String nombre) {
         super(nombre);
     }
 }

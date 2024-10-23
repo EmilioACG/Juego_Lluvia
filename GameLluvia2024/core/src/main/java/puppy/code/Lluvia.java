@@ -18,9 +18,9 @@ public class Lluvia {
 
     private long lastDropTime;
     private Texture gotaBuena;
-    private Texture frutilla;
-    private Texture naranja;
-    private Texture platano;
+    private Texture brocoli;
+    private Texture berenjena;
+    private Texture coliflor;
     private Texture frugele;
     private Texture superocho;
     private Texture picodulce;
@@ -28,15 +28,15 @@ public class Lluvia {
     private Sound dropSound;
     private Music rainMusic;
 
-	public Lluvia(Texture gotaBuena, Texture gotaMala,Texture frutilla, Texture naranja,Texture platano,
+	public Lluvia(Texture gotaBuena, Texture gotaMala, Texture brocoli, Texture berenjena, Texture coliflor,
                   Texture frugele, Texture superocho, Texture picodulce, Sound ss, Music mm) {
 		rainMusic = mm;
 		dropSound = ss;
 		this.gotaBuena = gotaBuena;
 		this.gotaMala = gotaMala;
-        this.frutilla = frutilla;
-        this.naranja = naranja;
-        this.platano = platano;
+        this.brocoli = brocoli;
+        this.berenjena = berenjena;
+        this.coliflor = coliflor;
         this.frugele = frugele;
         this.superocho = superocho;
         this.picodulce = picodulce;
@@ -65,11 +65,11 @@ public class Lluvia {
         int dropComidaRandom = MathUtils.random(1,10);
         if (dropComidaRandom == 1)
             //rainDropsType.add(1);
-            tiposLluviaCaida.add(new Fruta("PLATANO"));
+            tiposLluviaCaida.add(new Verdura("COLIFLOR"));
         else if (dropComidaRandom == 2)
-            tiposLluviaCaida.add(new Fruta("NARANJA"));
+            tiposLluviaCaida.add(new Verdura("BERENJENA"));
         else if (dropComidaRandom == 3)
-            tiposLluviaCaida.add(new Fruta("FRUTILLA"));
+            tiposLluviaCaida.add(new Verdura("BROCOLI"));
         else if (dropComidaRandom == 10)
             tiposLluviaCaida.add(new Dulce("PICODULCE"));
         else if (dropComidaRandom == 9)
@@ -98,7 +98,7 @@ public class Lluvia {
           //choca con el niño
 	      if(raindrop.overlaps(niño.getArea())) { //la gota choca con el niño
 	    	//if(rainDropsType.get(i)==1) { // gota dañina
-            if(tiposLluviaCaida.get(i) instanceof Fruta) {
+            if(tiposLluviaCaida.get(i) instanceof Verdura) {
 	    	  niño.dañar();
 
               rainDropsPos.removeIndex(i);
@@ -118,16 +118,16 @@ public class Lluvia {
 
 	  for (int i=0; i < rainDropsPos.size; i++ ) {
 		  Rectangle raindrop = rainDropsPos.get(i);
-		  if(tiposLluviaCaida.get(i) instanceof Fruta) { // comida dañina
+		  if(tiposLluviaCaida.get(i) instanceof Verdura) { // comida dañina
               switch (tiposLluviaCaida.get(i).getNombre()) {
-                  case "PLATANO":
-                      batch.draw(platano, raindrop.x, raindrop.y);
+                  case "COLIFLOR":
+                      batch.draw(coliflor, raindrop.x, raindrop.y);
                       break;
-                  case "NARANJA":
-                      batch.draw(naranja, raindrop.x, raindrop.y);
+                  case "BERENJENA":
+                      batch.draw(berenjena, raindrop.x, raindrop.y);
                       break;
-                  case "FRUTILLA":
-                      batch.draw(frutilla, raindrop.x, raindrop.y);
+                  case "BROCOLI":
+                      batch.draw(brocoli, raindrop.x, raindrop.y);
                       break;
               }
           }
