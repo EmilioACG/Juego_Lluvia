@@ -20,15 +20,16 @@ public class GameLluvia extends ApplicationAdapter {
 	   private SpriteBatch batch;
 	   private BitmapFont font;
 
-	   private Child tarro;
+	   private Child child;
 	   private Lluvia lluvia;
+	   private Texture fondoTexture;
 	@Override
 	public void create () {
 		 font = new BitmapFont(); // use libGDX's default Arial font
 
 		  // load the images for the droplet and the bucket, 64x64 pixels each
 		  Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("hurt.ogg"));
-		  tarro = new Child(new Texture(Gdx.files.internal("bucket.png")),hurtSound);
+		  child = new Child(new Texture(Gdx.files.internal("imagenChild.png")),hurtSound);
 
 	      // load the drop sound effect and the rain background "music"
           Texture gota = new Texture(Gdx.files.internal("drop.png"));
@@ -36,15 +37,16 @@ public class GameLluvia extends ApplicationAdapter {
 
           Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
 
-	      Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
+	      Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("musicaHalloween.mp3"));
           lluvia = new Lluvia(gota, gotaMala, dropSound, rainMusic);
+		  fondoTexture = new Texture(Gdx.files.internal("imagenDeFondo.jpg"));
 
 	      // camera
 	      camera = new OrthographicCamera();
 	      camera.setToOrtho(false, 800, 480);
 	      batch = new SpriteBatch();
 	      // creacion del tarro
-	      tarro.crear();
+	      child.crear();
 
 	      // creacion de la lluvia
 	      lluvia.crear();
@@ -61,18 +63,21 @@ public class GameLluvia extends ApplicationAdapter {
 		//actualizar
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		//dibujar fondo
+		batch.draw(fondoTexture, 0, 0, Gdx.graphics.getWidth() + 180, Gdx.graphics.getHeight());
 		//dibujar textos
-		font.draw(batch, "Gotas totales: " + tarro.getPuntos(), 5, 475);
-		font.draw(batch, "Vidas : " + tarro.getVidas(), 720, 475);
+		font.draw(batch, "Gotas totales: " + child.getPuntos(), 5, 475);
+		font.draw(batch, "Vidas : " + child.getVidas(), 720, 475);
+		
 
-		if (!tarro.estaHerido()) {
+		if (!child.estaHerido()) {
 			// movimiento del tarro desde teclado
-	        tarro.actualizarMovimiento();
+	        child.actualizarMovimiento();
 			// caida de la lluvia
-	        lluvia.actualizarMovimiento(tarro);
+	        lluvia.actualizarMovimiento(child);
 		}
 
-		tarro.dibujar(batch);
+		child.dibujar(batch);
 		lluvia.actualizarDibujoLluvia(batch);
 
 		batch.end();
@@ -81,10 +86,11 @@ public class GameLluvia extends ApplicationAdapter {
 
 	@Override
 	public void dispose () {
-	      tarro.destruir();
+		  child.destruir();
           lluvia.destruir();
 	      batch.dispose();
 	      font.dispose();
+		  fondoTexture.dispose();
 	}
 }
 

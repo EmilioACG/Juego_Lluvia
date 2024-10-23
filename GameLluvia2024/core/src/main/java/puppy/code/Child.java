@@ -10,8 +10,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 
 public class Child {
-	   private Rectangle bucket;
-	   private Texture bucketImage;
+	   private Rectangle child;
+	   private Texture childImage;
 	   private Sound sonidoHerido;
 	   private int vidas = 3;
 	   private int puntos = 0;
@@ -19,9 +19,11 @@ public class Child {
 	   private boolean herido = false;
 	   private int tiempoHeridoMax=50;
 	   private int tiempoHerido;
+	   private float altoTexture = 110;
+	   private float anchoTexture = 90;
 
 	   public Child(Texture tex, Sound ss) {
-		   bucketImage = tex;
+		   childImage = tex;
 		   sonidoHerido = ss;
 	   }
 
@@ -33,7 +35,7 @@ public class Child {
 			return puntos;
 		}
 		public Rectangle getArea() {
-			return bucket;
+			return child;
 		}
 		public void sumarPuntos(int pp) {
 			puntos+=pp;
@@ -42,11 +44,11 @@ public class Child {
 
 	   public void crear() {
 
-		      bucket = new Rectangle();
-		      bucket.x = 800 / 2 - 64 / 2;
-		      bucket.y = 20;
-		      bucket.width = 64;
-		      bucket.height = 64;
+		      child = new Rectangle();
+		      child.x = 800 / 2 - 64 / 2;
+		      child.y = 0;
+		      child.width = altoTexture;
+		      child.height = anchoTexture;
 	   }
 	   public void dañar() {
 		  vidas--;
@@ -56,10 +58,10 @@ public class Child {
 	   }
 	   public void dibujar(SpriteBatch batch) {
 		 if (!herido)
-		   batch.draw(bucketImage, bucket.x, bucket.y);
+		   batch.draw(childImage, child.x, child.y,anchoTexture,altoTexture);
 		 else {
 
-		   batch.draw(bucketImage, bucket.x, bucket.y+ MathUtils.random(-5,5));
+		   batch.draw(childImage, child.x, child.y+ MathUtils.random(-5,5),anchoTexture,altoTexture);
 		   tiempoHerido--;
 		   if (tiempoHerido<=0) herido = false;
 		 }
@@ -75,16 +77,16 @@ public class Child {
 			      bucket.x = touchPos.x - 64 / 2;
 			}*/
 		   //movimiento desde teclado
-		   if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket.x -= velx * Gdx.graphics.getDeltaTime();
-		   if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket.x += velx * Gdx.graphics.getDeltaTime();
+		   if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) child.x -= velx * Gdx.graphics.getDeltaTime();
+		   if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) child.x += velx * Gdx.graphics.getDeltaTime();
 		   // que no se salga de los bordes izq y der
-		   if(bucket.x < 0) bucket.x = 0;
-		   if(bucket.x > 800 - 64) bucket.x = 800 - 64;
+		   if(child.x < 0) child.x = 0;
+		   if(child.x > 800 - anchoTexture) child.x = 800 - anchoTexture;
 	   }
 
 
 	public void destruir() {
-		    bucketImage.dispose();
+			childImage.dispose();
 	   }
 
    public boolean estaHerido() {
