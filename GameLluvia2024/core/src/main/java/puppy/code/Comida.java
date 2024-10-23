@@ -6,9 +6,16 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public abstract class Comida {
-    private Array<Rectangle> rainDropsPos;
-    private Array<Integer> rainDropsType;
-    private long lastDropTime;
-    private Sound dropSound;
-    private Music rainMusic;
+    private String nombre;
+
+    public Comida(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }
