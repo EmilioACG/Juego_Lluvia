@@ -6,4 +6,5 @@ public class Verdura extends Comida{
     public Verdura(String nombre) {
         super(nombre);
     }
+    
 }

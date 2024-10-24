@@ -100,7 +100,7 @@ public class Lluvia {
 	    	//if(rainDropsType.get(i)==1) { // gota dañina
             if(tiposLluviaCaida.get(i) instanceof Verdura) {
 	    	  niño.dañar();
-
+				
               rainDropsPos.removeIndex(i);
               tiposLluviaCaida.removeIndex(i);
             }else { // gota a recolectar
