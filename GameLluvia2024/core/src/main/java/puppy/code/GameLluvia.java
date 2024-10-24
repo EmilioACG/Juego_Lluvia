@@ -101,6 +101,9 @@ public class GameLluvia extends ApplicationAdapter {
 		child.dibujar(batch);
 		lluvia.actualizarDibujoLluvia(batch);
 
+        float tiempoInvunerable = Gdx.graphics.getDeltaTime();
+        child.actualizarInvulnerabilidad(tiempoInvunerable);
+
 		batch.end();
 
 	}

@@ -66,7 +66,7 @@ public class Dulce extends Comida implements Interactuable {
     @Override
     public void interaccionPicoDulce(Child niño) {
         niño.sumarPuntos(getAtributoBasico() * 5);
-
+        niño.setEsInvunerable(true);
     }
 
 }
