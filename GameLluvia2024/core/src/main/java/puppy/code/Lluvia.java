@@ -95,7 +95,7 @@ public class Lluvia {
 	      if(raindrop.overlaps(niño.getArea())) { //la gota choca con el niño
             if(tiposLluviaCaida.get(i) instanceof Verdura) { // gota dañina
 	    	  niño.dañar();
-				
+
               rainDropsPos.removeIndex(i);
               tiposLluviaCaida.removeIndex(i);
             }else { // gota a recolectar
@@ -142,6 +142,12 @@ public class Lluvia {
 
       }
    }
+
+   public void reiniciar(){
+		rainDropsPos.clear(); 
+		tiposLluviaCaida.clear();
+   }
+
    public void destruir() {
 	      dropSound.dispose();
 	      rainMusic.dispose();
