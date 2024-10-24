@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 
 
 public class Child {
@@ -136,6 +137,22 @@ public class Child {
             tiempoInvunerable -= tiempoJuego;
             if (tiempoInvunerable <= 0)
                 esInvunerable = false;
+        }
+    }
+
+    public void colisionaConComida(Array<Rectangle> rainDropsPos, Array<Comida> tiposLluviaCaida, int posComida, Sound dropSound) {
+        if(tiposLluviaCaida.get(posComida) instanceof Verdura) { // gota dañina
+            dañar();
+
+            rainDropsPos.removeIndex(posComida);
+            tiposLluviaCaida.removeIndex(posComida);
+        } else { // gota a recolectar
+            ((Dulce)tiposLluviaCaida.get(posComida)).dulceInteractuaConNiño(this);
+
+            dropSound.play();
+
+            rainDropsPos.removeIndex(posComida);
+            tiposLluviaCaida.removeIndex(posComida);
         }
     }
 }

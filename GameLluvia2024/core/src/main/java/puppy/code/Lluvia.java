@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Lluvia {
-	private Array<Rectangle> rainDropsPos;
+    private Array<Rectangle> rainDropsPos;
 
 	//private Array<Integer> rainDropsType;
     private Array<Comida> tiposLluviaCaida;
@@ -93,18 +93,22 @@ public class Lluvia {
 
           //choca con el niño
 	      if(raindrop.overlaps(niño.getArea())) { //la gota choca con el niño
-            if(tiposLluviaCaida.get(i) instanceof Verdura) { // gota dañina
-	    	  niño.dañar();
-				
-              rainDropsPos.removeIndex(i);
-              tiposLluviaCaida.removeIndex(i);
-            }else { // gota a recolectar
-	    	  niño.sumarPuntos(10);
-	          dropSound.play();
+              niño.colisionaConComida(rainDropsPos, tiposLluviaCaida, i, dropSound);
 
-              rainDropsPos.removeIndex(i);
-              tiposLluviaCaida.removeIndex(i);
-            }
+              /*
+              if(tiposLluviaCaida.get(i) instanceof Verdura) { // gota dañina
+	    	    niño.dañar();
+
+                rainDropsPos.removeIndex(i);
+                tiposLluviaCaida.removeIndex(i);
+              } else { // gota a recolectar
+	    	    niño.sumarPuntos(10);
+	            dropSound.play();
+
+                rainDropsPos.removeIndex(i);
+                tiposLluviaCaida.removeIndex(i);
+              }
+               */
           }
 	   }
    }
