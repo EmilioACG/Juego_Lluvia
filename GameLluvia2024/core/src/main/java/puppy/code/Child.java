@@ -11,10 +11,12 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Child {
 	   private Rectangle child;
-	   private Texture childImage;
+	   private Texture childImagen;
+	   private Texture childImagenHerido;
 	   private Sound sonidoHerido;
-	   private int vidas = 3;
+	   private int vidas = 100;
 	   private int puntos = 0;
+	   private int racha;
 	   private int velx = 400;
 	   private boolean herido = false;
 	   private int tiempoHeridoMax=50;
@@ -22,8 +24,9 @@ public class Child {
 	   private float altoTexture = 110;
 	   private float anchoTexture = 90;
 
-	   public Child(Texture tex, Sound ss) {
-		   childImage = tex;
+	   public Child(Texture tex,Texture texHerido, Sound ss) {
+		   childImagen = tex;
+		   childImagenHerido = texHerido;
 		   sonidoHerido = ss;
 	   }
 
@@ -34,11 +37,18 @@ public class Child {
 		public int getPuntos() {
 			return puntos;
 		}
+		public int getRacha(){
+			return racha;
+		}
 		public Rectangle getArea() {
 			return child;
 		}
 		public void sumarPuntos(int pp) {
-			puntos+=pp;
+			puntos += pp;
+			racha ++;
+		}
+		public void sumarVidas(int pv){
+			vidas += pv;
 		}
 
 
@@ -58,10 +68,10 @@ public class Child {
 	   }
 	   public void dibujar(SpriteBatch batch) {
 		 if (!herido)
-		   batch.draw(childImage, child.x, child.y,anchoTexture,altoTexture);
+		   batch.draw(childImagen, child.x, child.y,anchoTexture,altoTexture);
 		 else {
-
-		   batch.draw(childImage, child.x, child.y+ MathUtils.random(-5,5),anchoTexture,altoTexture);
+		   racha = 0;
+		   batch.draw(childImagenHerido, child.x, child.y+ MathUtils.random(-5,5),anchoTexture,altoTexture);
 		   tiempoHerido--;
 		   if (tiempoHerido<=0) herido = false;
 		 }
@@ -86,7 +96,7 @@ public class Child {
 
 
 	public void destruir() {
-			childImage.dispose();
+			childImagen.dispose();
 	   }
 
    public boolean estaHerido() {
