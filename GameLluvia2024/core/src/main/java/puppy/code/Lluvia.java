@@ -58,17 +58,16 @@ public class Lluvia {
         raindrop.height = 64;
         rainDropsPos.add(raindrop);
         // ver el tipo de gota
-        int dropComidaRandom = MathUtils.random(1,10);
-        if (dropComidaRandom == 1)
-            //rainDropsType.add(1);
-            tiposLluviaCaida.add(new Verdura("COLIFLOR"));
-        else if (dropComidaRandom == 2)
+        int dropComidaRandom = MathUtils.random(1,100);
+        if (dropComidaRandom <= 3)
             tiposLluviaCaida.add(new Verdura("BERENJENA"));
-        else if (dropComidaRandom == 3)
+        else if (dropComidaRandom <= 10)
+            tiposLluviaCaida.add(new Verdura("COLIFLOR"));
+        else if (dropComidaRandom <= 25)
             tiposLluviaCaida.add(new Verdura("BROCOLI"));
-        else if (dropComidaRandom == 10)
+        else if (dropComidaRandom <= 30)
             tiposLluviaCaida.add(new Dulce("PICODULCE"));
-        else if (dropComidaRandom == 9)
+        else if (dropComidaRandom <= 40)
             tiposLluviaCaida.add(new Dulce("SUPEROCHO"));
         else
             tiposLluviaCaida.add(new Dulce("FRUGELE"));
