@@ -12,21 +12,24 @@ import com.badlogic.gdx.utils.Array;
 
 public class Child {
     private Rectangle child;
-	private Texture childImagen;
-	private Texture childImagenHerido;
-	private Sound sonidoHerido;
-	private int vidas = 100;
-	private int puntos = 0;
-	private int racha;
-	private int velx = 400;
-	private boolean herido = false;
-	private int tiempoHeridoMax=50;
+    private Texture childImagen;
+    private Texture childImagenHerido;
+    private Sound sonidoHerido;
+    private int vidas = 100;
+    private int puntos = 0;
+    private int puntajeMaximo = 0;
+    private int racha;
+    private int rachaMaxima = 0;
+    private int velx = 400;
+    private boolean herido = false;
+    private int tiempoHeridoMax=50;
+    private int tiempoHerido;
+    private boolean esInvunerable = false;
     private float tiempoInvunerableMax = 5f;
     private float tiempoInvunerable;
-	private int tiempoHerido;
-	private float altoTexture = 110;
-	private float anchoTexture = 90;
-    private boolean esInvunerable = false;
+    private float altoTexture = 110;
+    private float anchoTexture = 90;
+
 
     public Child(Texture tex,Texture texHerido, Sound ss) {
         childImagen = tex;
@@ -60,8 +63,21 @@ public class Child {
     public int getRacha(){
         return racha;
     }
+    public int getRachaMaxima(){
+        return rachaMaxima;
+    }
+    public int puntajeMaximo(){
+        return puntajeMaximo;
+    }
     public Rectangle getArea() {
         return child;
+    }
+    public void setVidas(int vidas){
+        this.vidas = vidas;
+    }
+
+    public void setPuntos(int puntos){
+        this.puntos = puntos;
     }
 
     public boolean getEsInvunerable() {
@@ -78,11 +94,14 @@ public class Child {
     public void sumarPuntos(int pp) {
         puntos += pp;
         racha ++;
+        if(racha > rachaMaxima)
+            rachaMaxima = racha;
+        if(puntos > puntajeMaximo)
+            puntajeMaximo = puntos;
     }
     public void sumarVidas(int pv){
         vidas += pv;
     }
-
 
     public void crear() {
         child = new Rectangle();
@@ -92,17 +111,16 @@ public class Child {
         child.height = anchoTexture;
     }
 
-
     public void dañar() {
         if(!getEsInvunerable()) {
-            vidas--;
+            vidas -= 50;
             herido = true;
             tiempoHerido=tiempoHeridoMax;
             sonidoHerido.play();
         }
     }
 
-    public void dibujar(SpriteBatch batch) {
+    public void dibujar(SpriteBatch batch, boolean gameOver) {
         if (!herido)
             batch.draw(childImagen, child.x, child.y,anchoTexture,altoTexture);
         else {
@@ -111,6 +129,8 @@ public class Child {
             tiempoHerido--;
             if (tiempoHerido<=0) herido = false;
         }
+        if(gameOver)
+            batch.draw(childImagenHerido, child.x, child.y,anchoTexture,altoTexture);
     }
 
 
@@ -133,7 +153,7 @@ public class Child {
    }
 
     public void actualizarInvulnerabilidad(float tiempoJuego) {
-        if(esInvunerable) {
+        if(!getEsInvunerable()) {
             tiempoInvunerable -= tiempoJuego;
             if (tiempoInvunerable <= 0)
                 esInvunerable = false;

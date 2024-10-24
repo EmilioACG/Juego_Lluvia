@@ -58,17 +58,16 @@ public class Lluvia {
         raindrop.height = 64;
         rainDropsPos.add(raindrop);
         // ver el tipo de gota
-        int dropComidaRandom = MathUtils.random(1,10);
+        int dropComidaRandom = MathUtils.random(1,100);
         if (dropComidaRandom == 1)
-            //rainDropsType.add(1);
-            tiposLluviaCaida.add(new Verdura("COLIFLOR"));
-        else if (dropComidaRandom == 2)
             tiposLluviaCaida.add(new Verdura("BERENJENA"));
-        else if (dropComidaRandom == 3)
+        else if (dropComidaRandom <= 5)
+            tiposLluviaCaida.add(new Verdura("COLIFLOR"));
+        else if (dropComidaRandom <= 20)
             tiposLluviaCaida.add(new Verdura("BROCOLI"));
-        else if (dropComidaRandom == 10)
+        else if (dropComidaRandom == 21)
             tiposLluviaCaida.add(new Dulce("PICODULCE"));
-        else if (dropComidaRandom == 9)
+        else if (dropComidaRandom <= 30)
             tiposLluviaCaida.add(new Dulce("SUPEROCHO"));
         else
             tiposLluviaCaida.add(new Dulce("FRUGELE"));
@@ -95,20 +94,6 @@ public class Lluvia {
 	      if(raindrop.overlaps(niño.getArea())) { //la gota choca con el niño
               niño.colisionaConComida(rainDropsPos, tiposLluviaCaida, i, dropSound);
 
-              /*
-              if(tiposLluviaCaida.get(i) instanceof Verdura) { // gota dañina
-	    	    niño.dañar();
-
-                rainDropsPos.removeIndex(i);
-                tiposLluviaCaida.removeIndex(i);
-              } else { // gota a recolectar
-	    	    niño.sumarPuntos(10);
-	            dropSound.play();
-
-                rainDropsPos.removeIndex(i);
-                tiposLluviaCaida.removeIndex(i);
-              }
-               */
           }
 	   }
    }
@@ -146,6 +131,12 @@ public class Lluvia {
 
       }
    }
+
+   public void reiniciar(){
+		rainDropsPos.clear();
+		tiposLluviaCaida.clear();
+   }
+
    public void destruir() {
 	      dropSound.dispose();
 	      rainMusic.dispose();
