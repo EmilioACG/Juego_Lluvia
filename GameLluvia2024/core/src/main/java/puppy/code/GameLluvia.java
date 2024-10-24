@@ -32,8 +32,6 @@ public class GameLluvia extends ApplicationAdapter {
 		  child = new Child(new Texture(Gdx.files.internal("imagenChild.png")),hurtSound);
 
 	      // load the drop sound effect and the rain background "music"
-          Texture gota = new Texture(Gdx.files.internal("drop.png"));
-          Texture gotaMala = new Texture(Gdx.files.internal("dropBad.png"));
 
           Texture brocoli = new Texture(Gdx.files.internal("brocoli.png"));
           Texture berenjena = new Texture(Gdx.files.internal("berenjena.png"));
@@ -45,7 +43,7 @@ public class GameLluvia extends ApplicationAdapter {
           Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
           Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("musicaHalloween.mp3"));
 
-          lluvia = new Lluvia(gota, gotaMala,brocoli,berenjena,coliflor,frugele,superocho,picodulce, dropSound, rainMusic);
+          lluvia = new Lluvia(brocoli,berenjena,coliflor,frugele,superocho,picodulce, dropSound, rainMusic);
 
 		  fondoTexture = new Texture(Gdx.files.internal("imagenDeFondo.jpg"));
 

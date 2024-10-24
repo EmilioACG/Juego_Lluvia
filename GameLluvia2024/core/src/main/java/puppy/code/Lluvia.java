@@ -17,23 +17,19 @@ public class Lluvia {
     private Array<Comida> tiposLluviaCaida;
 
     private long lastDropTime;
-    private Texture gotaBuena;
     private Texture brocoli;
     private Texture berenjena;
     private Texture coliflor;
     private Texture frugele;
     private Texture superocho;
     private Texture picodulce;
-    private Texture gotaMala;
     private Sound dropSound;
     private Music rainMusic;
 
-	public Lluvia(Texture gotaBuena, Texture gotaMala, Texture brocoli, Texture berenjena, Texture coliflor,
+	public Lluvia(Texture brocoli, Texture berenjena, Texture coliflor,
                   Texture frugele, Texture superocho, Texture picodulce, Sound ss, Music mm) {
 		rainMusic = mm;
 		dropSound = ss;
-		this.gotaBuena = gotaBuena;
-		this.gotaMala = gotaMala;
         this.brocoli = brocoli;
         this.berenjena = berenjena;
         this.coliflor = coliflor;
@@ -97,8 +93,7 @@ public class Lluvia {
 
           //choca con el niño
 	      if(raindrop.overlaps(niño.getArea())) { //la gota choca con el niño
-	    	//if(rainDropsType.get(i)==1) { // gota dañina
-            if(tiposLluviaCaida.get(i) instanceof Verdura) {
+            if(tiposLluviaCaida.get(i) instanceof Verdura) { // gota dañina
 	    	  niño.dañar();
 
               rainDropsPos.removeIndex(i);
