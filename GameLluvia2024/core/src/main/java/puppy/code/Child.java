@@ -113,7 +113,7 @@ public class Child {
 
     public void dañar() {
         if(!getEsInvunerable()) {
-            vidas -= 50;
+            vidas -= 10;
             herido = true;
             tiempoHerido=tiempoHeridoMax;
             sonidoHerido.play();
@@ -153,7 +153,7 @@ public class Child {
    }
 
     public void actualizarInvulnerabilidad(float tiempoJuego) {
-        if(!getEsInvunerable()) {
+        if(getEsInvunerable()) {
             tiempoInvunerable -= tiempoJuego;
             if (tiempoInvunerable <= 0)
                 esInvunerable = false;

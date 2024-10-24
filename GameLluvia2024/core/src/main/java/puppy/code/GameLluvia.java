@@ -90,14 +90,14 @@ public class GameLluvia extends ApplicationAdapter {
 		batch.begin();
 		//dibujar fondo
 		batch.draw(fondoTexture, 0, 0, Gdx.graphics.getWidth() + 180, Gdx.graphics.getHeight());
-		
+
 
 		if (!gameOver) {
             //dibujar textos
 			font.draw(batch, "Puntos totales: " + child.getPuntos(), 5, 475);
 			font.draw(batch, "Vidas : " + child.getVidas(), 690, 475);
 			font.draw(batch, "Numero de racha : " + child.getRacha(),590,440 );
-			if(child.getVidas() == 0) 
+			if(child.getVidas() == 0)
 				gameOver = true;
 
 			if (!child.estaHerido()) {
@@ -107,7 +107,7 @@ public class GameLluvia extends ApplicationAdapter {
 	        	lluvia.actualizarMovimiento(child);
 			}
 		}
-		
+
 		else {
 			int auxPuntaje = child.puntajeMaximo();
 			int auxRacha = child.getRachaMaxima();
@@ -115,7 +115,7 @@ public class GameLluvia extends ApplicationAdapter {
 				puntuacionMaxima = auxPuntaje;
 			if(auxRacha > rachaMaxima)
 				rachaMaxima = auxRacha;
-			lluvia.reiniciar(); // Elimina la lluvia 
+			lluvia.reiniciar(); // Elimina la lluvia
 			font.getData().setScale(2); // Aumenta la escala del texto
 			// Muestra los mensajes de GAME OVER, reiniciar, puntaje maximo y racha maxima
             font.draw(batch, "GAME OVER", Gdx.graphics.getWidth() / 2 - 30, Gdx.graphics.getHeight() / 2 + 40);
@@ -123,14 +123,14 @@ public class GameLluvia extends ApplicationAdapter {
 			font.getData().setScale(1);  // Vuelve la escala del texto a la normalidad
 			font.draw(batch, "La puntuacion maxima es : " + puntuacionMaxima, Gdx.graphics.getWidth() / 2 - 40, Gdx.graphics.getHeight() / 2 - 70);
 			font.draw(batch, "La racha maxima es : " + rachaMaxima, Gdx.graphics.getWidth() / 2 - 40, Gdx.graphics.getHeight() / 2 - 110);
-			
-		}
 
-		child.dibujar(batch,gameOver);
-		lluvia.actualizarDibujoLluvia(batch);
+		}
 
         float tiempoInvunerable = Gdx.graphics.getDeltaTime();
         child.actualizarInvulnerabilidad(tiempoInvunerable);
+
+		child.dibujar(batch,gameOver);
+		lluvia.actualizarDibujoLluvia(batch);
 
 		batch.end();
 		if (gameOver && Gdx.input.isKeyJustPressed(Input.Keys.R)) {

@@ -1,7 +1,7 @@
 package puppy.code;
 
 public class Dulce extends Comida implements Interactuable {
-    private final int atributoBasico = 10;
+    private int atributoBasico = 10;
 
     /**
      * Obtiene el atributo basico de dulce
@@ -53,7 +53,7 @@ public class Dulce extends Comida implements Interactuable {
     @Override
     public void interaccionSuperOcho(Child niño) {
         niño.sumarPuntos(getAtributoBasico() * 2);
-        //niño.sumarVidas(getAtributoBasico());
+        niño.sumarVidas(getAtributoBasico());
     }
 
     /**
