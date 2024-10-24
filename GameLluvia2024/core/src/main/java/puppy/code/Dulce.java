@@ -1,7 +1,6 @@
 package puppy.code;
 
 public class Dulce extends Comida implements Interactuable {
-    //ATRIBUTOS
     private final int atributoBasico = 10;
 
     /**
@@ -39,7 +38,8 @@ public class Dulce extends Comida implements Interactuable {
      *
      * @param niño Objeto de tipo Child que colisionó con el Dulce de nombre "FRUGELE"
      */
-    private void interaccionFrugele(Child niño) {
+    @Override
+    public void interaccionFrugele(Child niño) {
         niño.sumarPuntos(getAtributoBasico());
     }
 
@@ -50,7 +50,8 @@ public class Dulce extends Comida implements Interactuable {
      *
      * @param niño Oobjeto de tipo Child que colisionó con el Dulce de nombre "SUPEROCHO"
      */
-    private void interaccionSuperOcho(Child niño) {
+    @Override
+    public void interaccionSuperOcho(Child niño) {
         niño.sumarPuntos(getAtributoBasico() * 2);
         //niño.sumarVidas(getAtributoBasico());
     }
@@ -62,7 +63,8 @@ public class Dulce extends Comida implements Interactuable {
      *
      * @param niño Oobjeto de tipo Child que colisionó con el Dulce de nombre "PICODULCE"
      */
-    private void interaccionPicoDulce(Child niño) {
+    @Override
+    public void interaccionPicoDulce(Child niño) {
         niño.sumarPuntos(getAtributoBasico() * 5);
 
     }
