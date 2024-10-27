@@ -14,6 +14,7 @@ public class Child {
     private Rectangle child;
     private Texture childImagen;
     private Texture childImagenHerido;
+    private Texture childImagenInvunerable;
     private Sound sonidoHerido;
     private int vidas = 100;
     private int puntos = 0;
@@ -22,35 +23,26 @@ public class Child {
     private int rachaMaxima = 0;
     private int velx = 400;
     private boolean herido = false;
-    private int tiempoHeridoMax=50;
     private int tiempoHerido;
-    private boolean esInvunerable = false;
-    private float tiempoInvunerableMax = 5f;
-    private float tiempoInvunerable;
+    private int tiempoHeridoMax = 50;
     private float altoTexture = 110;
     private float anchoTexture = 90;
 
+    //Buff's y Debuff's
+    private boolean buffInvulnerable = false;
+    private float tiempoBuffInvulnerable;
+    private boolean debuffSlow = false;
+    private float tiempoDebuffSlow;
+    private boolean debuffVulnerable = false;
+    private float tiempoDebuffVulnerable;
 
-    public Child(Texture tex,Texture texHerido, Sound ss) {
+
+
+    public Child(Texture tex,Texture texHerido,Texture childImagenInvunerable, Sound ss) {
         childImagen = tex;
         childImagenHerido = texHerido;
+        this.childImagenInvunerable = childImagenInvunerable;
         sonidoHerido = ss;
-    }
-
-    public float getTiempoInvunerable() {
-        return tiempoInvunerable;
-    }
-
-    public void setTiempoInvunerable(float tiempoInvunerable) {
-        this.tiempoInvunerable = tiempoInvunerable;
-    }
-
-    public float getTiempoInvunerableMax() {
-        return tiempoInvunerableMax;
-    }
-
-    public void setTiempoInvunerableMax(float tiempoInvunerableMax) {
-        this.tiempoInvunerableMax = tiempoInvunerableMax;
     }
 
     public int getVidas() {
@@ -80,15 +72,31 @@ public class Child {
         this.puntos = puntos;
     }
 
-    public boolean getEsInvunerable() {
-        return esInvunerable;
+    public boolean getBuffInvulnerable() {
+        return buffInvulnerable;
     }
 
-    public void setEsInvunerable(boolean esInvunerable) {
-        this.esInvunerable = esInvunerable;
+    public void setEsInvunerable(boolean esInvunerable, float tiempoInvunerable) {
+        this.buffInvulnerable = esInvunerable;
         if(esInvunerable) {
-            tiempoInvunerable = tiempoInvunerableMax;
+            this.tiempoBuffInvulnerable = tiempoInvunerable;
         }
+
+        this.debuffSlow = false;
+        this.debuffVulnerable = false;
+        this.tiempoDebuffSlow = 0;
+        this.tiempoDebuffVulnerable = 0;
+    }
+
+    public void setEstaRalentizado(boolean estaRalentizado, float tiempoDebuff) {
+        this.debuffSlow = estaRalentizado;
+        velx = 200;
+        this.tiempoDebuffSlow = tiempoDebuff;
+    }
+
+    public void setEsVulnerable(boolean estaVulnerable, float tiempoDebuff) {
+        this.debuffVulnerable = estaVulnerable;
+        this.tiempoDebuffVulnerable = tiempoDebuff;
     }
 
     public void sumarPuntos(int pp) {
@@ -111,20 +119,23 @@ public class Child {
         child.height = anchoTexture;
     }
 
-    public void dañar() {
-        if(!getEsInvunerable()) {
-            vidas -= 10;
+    public void dañar(int ptsDaño) {
+        if(!getBuffInvulnerable()) {
+            if(debuffSlow) vidas -= ptsDaño * 2;
+            else vidas -= ptsDaño;
             herido = true;
             tiempoHerido=tiempoHeridoMax;
             sonidoHerido.play();
+            racha = 0;
         }
     }
 
     public void dibujar(SpriteBatch batch, boolean gameOver) {
         if (!herido)
             batch.draw(childImagen, child.x, child.y,anchoTexture,altoTexture);
-        else {
-            racha = 0;
+        else if (buffInvulnerable) {
+            batch.draw(childImagenInvunerable, child.x, child.y,anchoTexture,altoTexture);
+        } else {
             batch.draw(childImagenHerido, child.x, child.y+ MathUtils.random(-5,5),anchoTexture,altoTexture);
             tiempoHerido--;
             if (tiempoHerido<=0) herido = false;
@@ -150,19 +161,29 @@ public class Child {
 
     public boolean estaHerido() {
 	   return herido;
-   }
+    }
 
-    public void actualizarInvulnerabilidad(float tiempoJuego) {
-        if(getEsInvunerable()) {
-            tiempoInvunerable -= tiempoJuego;
-            if (tiempoInvunerable <= 0)
-                esInvunerable = false;
+    public void actualizadorEstados(float tiempoJuego) {
+        if (buffInvulnerable) {
+            tiempoBuffInvulnerable -= tiempoJuego;
+            if (tiempoBuffInvulnerable <= 0)
+                buffInvulnerable = false;
+        } else if (debuffSlow) {
+            tiempoDebuffSlow -= tiempoJuego;
+            if (tiempoDebuffSlow <= 0) {
+                debuffSlow = false;
+                velx = 400;
+            }
+        } else if (debuffVulnerable) {
+            tiempoDebuffVulnerable -= tiempoJuego;
+            if (tiempoDebuffVulnerable <= 0)
+                debuffVulnerable = false;
         }
     }
 
     public void colisionaConComida(Array<Rectangle> rainDropsPos, Array<Comida> tiposLluviaCaida, int posComida, Sound dropSound) {
         if(tiposLluviaCaida.get(posComida) instanceof Verdura) { // gota dañina
-            dañar();
+            ((Verdura)tiposLluviaCaida.get(posComida)).verduraInteractuaConNiño(this);
 
             rainDropsPos.removeIndex(posComida);
             tiposLluviaCaida.removeIndex(posComida);
@@ -175,4 +196,7 @@ public class Child {
             tiposLluviaCaida.removeIndex(posComida);
         }
     }
+
+
+
 }

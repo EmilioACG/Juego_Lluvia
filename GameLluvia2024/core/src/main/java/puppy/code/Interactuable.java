@@ -2,9 +2,10 @@ package puppy.code;
 
 public interface Interactuable {
 
-    void interaccionFrugele(Child niño);
+    void interaccionComun(Child niño);
 
-    void interaccionSuperOcho(Child niño);
+    void interaccionPocoComun(Child niño);
 
-    void interaccionPicoDulce(Child niño);
+    void interaccionRara(Child niño);
+
 }

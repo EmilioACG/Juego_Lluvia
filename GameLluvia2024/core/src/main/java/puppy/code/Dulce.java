@@ -21,13 +21,13 @@ public class Dulce extends Comida implements Interactuable {
     public void dulceInteractuaConNiño(Child niño) {
         switch (getNombre()) {
             case "FRUGELE":
-                interaccionFrugele(niño);
+                interaccionComun(niño);
                 break;
             case "SUPEROCHO":
-                interaccionSuperOcho(niño);
+                interaccionPocoComun(niño);
                 break;
             case "PICODULCE":
-                interaccionPicoDulce(niño);
+                interaccionRara(niño);
                 break;
         }
     }
@@ -39,7 +39,7 @@ public class Dulce extends Comida implements Interactuable {
      * @param niño Objeto de tipo Child que colisionó con el Dulce de nombre "FRUGELE"
      */
     @Override
-    public void interaccionFrugele(Child niño) {
+    public void interaccionComun(Child niño) {
         niño.sumarPuntos(getAtributoBasico());
     }
 
@@ -48,10 +48,10 @@ public class Dulce extends Comida implements Interactuable {
      * Al colisionar, se suman 20 puntos al puntaje total del niño,
      * y 10 puntos vida actual.
      *
-     * @param niño Oobjeto de tipo Child que colisionó con el Dulce de nombre "SUPEROCHO"
+     * @param niño Objeto de tipo Child que colisionó con el Dulce de nombre "SUPEROCHO"
      */
     @Override
-    public void interaccionSuperOcho(Child niño) {
+    public void interaccionPocoComun(Child niño) {
         niño.sumarPuntos(getAtributoBasico() * 2);
         niño.sumarVidas(getAtributoBasico());
     }
@@ -61,12 +61,12 @@ public class Dulce extends Comida implements Interactuable {
      * Al colisionar, se suman 50 puntos al puntaje total del niño,
      * y este se vuelve invulnerable por 5 segundos a futuras interacciones con objetos de la clase Verdura.
      *
-     * @param niño Oobjeto de tipo Child que colisionó con el Dulce de nombre "PICODULCE"
+     * @param niño Objeto de tipo Child que colisionó con el Dulce de nombre "PICODULCE"
      */
     @Override
-    public void interaccionPicoDulce(Child niño) {
+    public void interaccionRara(Child niño) {
         niño.sumarPuntos(getAtributoBasico() * 5);
-        niño.setEsInvunerable(true);
+        niño.setEsInvunerable(true, 5f);
     }
 
 }

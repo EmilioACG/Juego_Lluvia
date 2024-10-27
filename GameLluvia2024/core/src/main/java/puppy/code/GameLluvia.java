@@ -32,6 +32,7 @@ public class GameLluvia extends ApplicationAdapter {
 	   private Texture fondoTexture;
 	   private Texture childTexture;
 	   private Texture childTextureHerido;
+       private Texture childTextureInvunerable;
 
 
 	@Override
@@ -48,7 +49,8 @@ public class GameLluvia extends ApplicationAdapter {
 		  // Se cran las textura de child y la clase child
 		  childTexture = new Texture(Gdx.files.internal("imagenChild.png"));
 		  childTextureHerido = new Texture(Gdx.files.internal("imagenChildLlorando.png"));
-		  child = new Child(childTexture,childTextureHerido,hurtSound);
+          childTextureInvunerable = new Texture(Gdx.files.internal("imagenChildInvunerable.png"));
+		  child = new Child(childTexture,childTextureHerido,childTextureInvunerable,hurtSound);
 
 	      // load the drop sound effect and the rain background "music"
 
@@ -126,8 +128,8 @@ public class GameLluvia extends ApplicationAdapter {
 
 		}
 
-        float tiempoInvunerable = Gdx.graphics.getDeltaTime();
-        child.actualizarInvulnerabilidad(tiempoInvunerable);
+        float temporizador = Gdx.graphics.getDeltaTime();
+        child.actualizadorEstados(temporizador);
 
 		child.dibujar(batch,gameOver);
 		lluvia.actualizarDibujoLluvia(batch);
