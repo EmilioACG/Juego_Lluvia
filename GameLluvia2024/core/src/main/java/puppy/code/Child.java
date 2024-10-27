@@ -78,25 +78,29 @@ public class Child {
 
     public void setEsInvunerable(boolean esInvunerable, float tiempoInvunerable) {
         this.buffInvulnerable = esInvunerable;
-        if(esInvunerable) {
-            this.tiempoBuffInvulnerable = tiempoInvunerable;
-        }
+        this.tiempoBuffInvulnerable = tiempoInvunerable;
 
         this.debuffSlow = false;
         this.debuffVulnerable = false;
         this.tiempoDebuffSlow = 0;
+        this.velx = 400;
         this.tiempoDebuffVulnerable = 0;
     }
 
     public void setEstaRalentizado(boolean estaRalentizado, float tiempoDebuff) {
-        this.debuffSlow = estaRalentizado;
-        velx = 200;
-        this.tiempoDebuffSlow = tiempoDebuff;
+        if(!buffInvulnerable) {
+            this.debuffSlow = estaRalentizado;
+            velx = 200;
+            this.tiempoDebuffSlow = tiempoDebuff;
+        }
+
     }
 
     public void setEsVulnerable(boolean estaVulnerable, float tiempoDebuff) {
-        this.debuffVulnerable = estaVulnerable;
-        this.tiempoDebuffVulnerable = tiempoDebuff;
+        if(!buffInvulnerable) {
+            this.debuffVulnerable = estaVulnerable;
+            this.tiempoDebuffVulnerable = tiempoDebuff;
+        }
     }
 
     public void sumarPuntos(int pp) {
@@ -120,8 +124,8 @@ public class Child {
     }
 
     public void dañar(int ptsDaño) {
-        if(!getBuffInvulnerable()) {
-            if(debuffSlow) vidas -= ptsDaño * 2;
+        if(!buffInvulnerable) {
+            if(debuffVulnerable) vidas -= ptsDaño * 2;
             else vidas -= ptsDaño;
             herido = true;
             tiempoHerido=tiempoHeridoMax;

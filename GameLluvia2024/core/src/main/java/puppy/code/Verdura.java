@@ -66,7 +66,7 @@ public class Verdura extends Comida implements Interactuable{
      */
     @Override
     public void interaccionRara(Child niño) {
-        niño.sumarPuntos(getAtributoBasico() * 5);
+        niño.dañar(getAtributoBasico() * 5);
         niño.setEsVulnerable(true, 5f);
 
     }

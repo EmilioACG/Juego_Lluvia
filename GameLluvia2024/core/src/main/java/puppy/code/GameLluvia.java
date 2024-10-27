@@ -99,7 +99,7 @@ public class GameLluvia extends ApplicationAdapter {
 			font.draw(batch, "Puntos totales: " + child.getPuntos(), 5, 475);
 			font.draw(batch, "Vidas : " + child.getVidas(), 690, 475);
 			font.draw(batch, "Numero de racha : " + child.getRacha(),590,440 );
-			if(child.getVidas() == 0)
+			if(child.getVidas() <= 0)
 				gameOver = true;
 
 			if (!child.estaHerido()) {
