@@ -7,50 +7,58 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 
 
-public class Child {
-    private Rectangle child;
-    private Texture childImagen;
-    private Texture childImagenHerido;
-    private Texture childImagenInvunerable;
+public class Child implements Movimiento {
+    private Rectangle niño;
+    private Texture textureNiñoDefault;
+    private Texture textureNiñoHerido;
+    private Texture textureNiñoInvulnerable;
     private Sound sonidoHerido;
+    private Sound sonidoPuntos;
     private int vidas = 100;
-    private int puntos = 0;
+    private int puntaje = 0;
     private int puntajeMaximo = 0;
     private int racha;
     private int rachaMaxima = 0;
     private int velx = 400;
-    private boolean herido = false;
+    private boolean estaHerido = false;
     private int tiempoHerido;
     private int tiempoHeridoMax = 50;
-    private float altoTexture = 110;
-    private float anchoTexture = 90;
-
-    //Buff's y Debuff's
-    private boolean buffInvulnerable = false;
+    private boolean estaInvunerable = false;
     private float tiempoBuffInvulnerable;
-    private boolean debuffSlow = false;
-    private float tiempoDebuffSlow;
-    private boolean debuffVulnerable = false;
+    private boolean estaRalentizado = false;
+    private float tiempoDebuffRalentizado;
+    private boolean estaVulnerable = false;
     private float tiempoDebuffVulnerable;
+    private float altoTexture = 110f;
+    private float anchoTexture = 90f;
 
-
-
-    public Child(Texture tex,Texture texHerido,Texture childImagenInvunerable, Sound ss) {
-        childImagen = tex;
-        childImagenHerido = texHerido;
-        this.childImagenInvunerable = childImagenInvunerable;
+    //-----------------------------------------------------------------
+    //   CONSTRUCTOR
+    //-----------------------------------------------------------------
+    public Child(Texture tex,Texture texHerido,Texture childImagenInvunerable, Sound ss, Sound sonidoPuntos) {
+        textureNiñoDefault = tex;
+        textureNiñoHerido = texHerido;
+        this.textureNiñoInvulnerable = childImagenInvunerable;
         sonidoHerido = ss;
+        this.sonidoPuntos = sonidoPuntos;
     }
 
+    //-----------------------------------------------------------------
+    //   GETTER's
+    //-----------------------------------------------------------------
+    public Rectangle getNiño() {
+        return niño;
+    }
     public int getVidas() {
         return vidas;
     }
-
-    public int getPuntos() {
-        return puntos;
+    public int getPuntaje() {
+        return puntaje;
+    }
+    public int getPuntajeMaximo() {
+        return puntajeMaximo;
     }
     public int getRacha(){
         return racha;
@@ -58,149 +66,202 @@ public class Child {
     public int getRachaMaxima(){
         return rachaMaxima;
     }
-    public int puntajeMaximo(){
-        return puntajeMaximo;
+    public int getVelx() {
+        return velx;
     }
-    public Rectangle getArea() {
-        return child;
+    public boolean getEstaHerido() {
+        return estaHerido;
+    }
+    public int getTiempoHerido() {
+        return tiempoHerido;
+    }
+    public int getTiempoHeridoMax() {
+        return tiempoHeridoMax;
+    }
+    public boolean getEstaInvunerable() {
+        return estaInvunerable;
+    }
+    public float getTiempoBuffInvulnerable() {
+        return tiempoBuffInvulnerable;
+    }
+    public boolean getEstaRalentizado() {
+        return estaRalentizado;
+    }
+    public float getTiempoDebuffRalentizado() {
+        return tiempoDebuffRalentizado;
+    }
+    public boolean getEstaVulnerable() {
+        return estaVulnerable;
+    }
+    public float getTiempoDebuffVulnerable() {
+        return tiempoDebuffVulnerable;
+    }
+    public float getAltoTexture() {
+        return altoTexture;
+    }
+    public float getAnchoTexture() {
+        return anchoTexture;
+    }
+
+    //-----------------------------------------------------------------
+    //   SETTER's
+    //-----------------------------------------------------------------
+    public void setNiño(Rectangle niño) {
+        this.niño = niño;
     }
     public void setVidas(int vidas){
         this.vidas = vidas;
     }
-
-    public void setPuntos(int puntos){
-        this.puntos = puntos;
+    public void setPuntaje(int puntaje){
+        this.puntaje = puntaje;
     }
-
-    public boolean getBuffInvulnerable() {
-        return buffInvulnerable;
+    public void setPuntajeMaximo(int puntajeMaximo) {
+        this.puntajeMaximo = puntajeMaximo;
     }
-
-    public void setEsInvunerable(boolean esInvunerable, float tiempoInvunerable) {
-        this.buffInvulnerable = esInvunerable;
+    public void setRacha(int racha) {
+        this.racha = racha;
+    }
+    public void setRachaMaxima(int rachaMaxima) {
+        this.rachaMaxima = rachaMaxima;
+    }
+    public void setVelx(int velx) {
+        this.velx = velx;
+    }
+    public void setEstaHerido(boolean estaHerido) {
+        this.estaHerido = estaHerido;
+    }
+    public void setTiempoHerido(int tiempoHerido) {
+        this.tiempoHerido = tiempoHerido;
+    }
+    public void setTiempoHeridoMax(int tiempoHeridoMax) {
+        this.tiempoHeridoMax = tiempoHeridoMax;
+    }
+    public void setEstaInvunerable(boolean esInvunerable, float tiempoInvunerable) {
+        this.estaInvunerable = esInvunerable;
         this.tiempoBuffInvulnerable = tiempoInvunerable;
 
-        this.debuffSlow = false;
-        this.debuffVulnerable = false;
-        this.tiempoDebuffSlow = 0;
+        this.estaRalentizado = false;
+        this.estaVulnerable = false;
+        this.tiempoDebuffRalentizado = 0;
         this.velx = 400;
         this.tiempoDebuffVulnerable = 0;
     }
-
+    public void setTiempoBuffInvulnerable(float tiempoBuffInvulnerable) {
+        this.tiempoBuffInvulnerable = tiempoBuffInvulnerable;
+    }
     public void setEstaRalentizado(boolean estaRalentizado, float tiempoDebuff) {
-        if(!buffInvulnerable) {
-            this.debuffSlow = estaRalentizado;
+        if(!estaInvunerable) {
+            this.estaRalentizado = estaRalentizado;
             velx = 200;
-            this.tiempoDebuffSlow = tiempoDebuff;
+            this.tiempoDebuffRalentizado = tiempoDebuff;
         }
 
     }
-
-    public void setEsVulnerable(boolean estaVulnerable, float tiempoDebuff) {
-        if(!buffInvulnerable) {
-            this.debuffVulnerable = estaVulnerable;
+    public void setTiempoDebuffRalentizado(float tiempoDebuffRalentizado) {
+        this.tiempoDebuffRalentizado = tiempoDebuffRalentizado;
+    }
+    public void setEstaVulnerable(boolean estaVulnerable, float tiempoDebuff) {
+        if(!estaInvunerable) {
+            this.estaVulnerable = estaVulnerable;
             this.tiempoDebuffVulnerable = tiempoDebuff;
         }
     }
+    public void setTiempoDebuffVulnerable(float tiempoDebuffVulnerable) {
+        this.tiempoDebuffVulnerable = tiempoDebuffVulnerable;
+    }
+    public void setAltoTexture(float altoTexture) {
+        this.altoTexture = altoTexture;
+    }
+    public void setAnchoTexture(float anchoTexture) {
+        this.anchoTexture = anchoTexture;
+    }
+
+    //-----------------------------------------------------------------
+    //   METODOS
+    //-----------------------------------------------------------------
+    public void crear() {
+        niño = new Rectangle();
+        niño.x = (float) (800 / 2 - 64 / 2);
+        niño.y = 0;
+        niño.width = altoTexture;
+        niño.height = anchoTexture;
+    }
+
+    public void dibujar(SpriteBatch batch, boolean gameOver) {
+        if (!estaHerido)
+            batch.draw(textureNiñoDefault, niño.x, niño.y,anchoTexture,altoTexture);
+        else if (estaInvunerable) {
+            batch.draw(textureNiñoInvulnerable, niño.x, niño.y,anchoTexture,altoTexture);
+        } else {
+            batch.draw(textureNiñoHerido, niño.x, niño.y+ MathUtils.random(-5,5),anchoTexture,altoTexture);
+            tiempoHerido--;
+            if (tiempoHerido<=0) estaHerido = false;
+        }
+        if(gameOver)
+            batch.draw(textureNiñoHerido, niño.x, niño.y,anchoTexture,altoTexture);
+    }
+
+    @Override
+    public void actualizarMovimiento() {
+        //movimiento desde teclado
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) niño.x -= velx * Gdx.graphics.getDeltaTime();
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) niño.x += velx * Gdx.graphics.getDeltaTime();
+        // que no se salga de los bordes izq y der
+        if(niño.x < 0) niño.x = 0;
+        if(niño.x > 800 - anchoTexture) niño.x = 800 - anchoTexture;
+    }
+
+    public void actualizadorEstados(float tiempoJuego) {
+        if (estaInvunerable) {
+            tiempoBuffInvulnerable -= tiempoJuego;
+            if (tiempoBuffInvulnerable <= 0)
+                estaInvunerable = false;
+        } else if (estaRalentizado) {
+            tiempoDebuffRalentizado -= tiempoJuego;
+            if (tiempoDebuffRalentizado <= 0) {
+                estaRalentizado = false;
+                velx = 400;
+            }
+        } else if (estaVulnerable) {
+            tiempoDebuffVulnerable -= tiempoJuego;
+            if (tiempoDebuffVulnerable <= 0)
+                estaVulnerable = false;
+        }
+    }
+
 
     public void sumarPuntos(int pp) {
-        puntos += pp;
+        sonidoPuntos.play();
         racha ++;
+        puntaje += pp * racha;
         if(racha > rachaMaxima)
             rachaMaxima = racha;
-        if(puntos > puntajeMaximo)
-            puntajeMaximo = puntos;
+        if(puntaje > puntajeMaximo)
+            puntajeMaximo = puntaje;
     }
+
     public void sumarVidas(int pv){
         vidas += pv;
     }
 
-    public void crear() {
-        child = new Rectangle();
-        child.x = 800 / 2 - 64 / 2;
-        child.y = 0;
-        child.width = altoTexture;
-        child.height = anchoTexture;
-    }
-
     public void dañar(int ptsDaño) {
-        if(!buffInvulnerable) {
-            if(debuffVulnerable) vidas -= ptsDaño * 2;
+        if(!estaInvunerable) {
+            if(estaVulnerable) vidas -= ptsDaño * 2;
             else vidas -= ptsDaño;
-            herido = true;
+            estaHerido = true;
             tiempoHerido=tiempoHeridoMax;
             sonidoHerido.play();
             racha = 0;
         }
     }
 
-    public void dibujar(SpriteBatch batch, boolean gameOver) {
-        if (!herido)
-            batch.draw(childImagen, child.x, child.y,anchoTexture,altoTexture);
-        else if (buffInvulnerable) {
-            batch.draw(childImagenInvunerable, child.x, child.y,anchoTexture,altoTexture);
-        } else {
-            batch.draw(childImagenHerido, child.x, child.y+ MathUtils.random(-5,5),anchoTexture,altoTexture);
-            tiempoHerido--;
-            if (tiempoHerido<=0) herido = false;
-        }
-        if(gameOver)
-            batch.draw(childImagenHerido, child.x, child.y,anchoTexture,altoTexture);
+    @Override
+    public void actualizarMovimiento(Child niño){}
+
+    public void destruir() {
+        sonidoPuntos.dispose();
+        textureNiñoDefault.dispose();
+        sonidoHerido.dispose();
     }
-
-
-    public void actualizarMovimiento() {
-        //movimiento desde teclado
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) child.x -= velx * Gdx.graphics.getDeltaTime();
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) child.x += velx * Gdx.graphics.getDeltaTime();
-        // que no se salga de los bordes izq y der
-        if(child.x < 0) child.x = 0;
-        if(child.x > 800 - anchoTexture) child.x = 800 - anchoTexture;
-    }
-
-
-	public void destruir() {
-        childImagen.dispose();
-    }
-
-    public boolean estaHerido() {
-	   return herido;
-    }
-
-    public void actualizadorEstados(float tiempoJuego) {
-        if (buffInvulnerable) {
-            tiempoBuffInvulnerable -= tiempoJuego;
-            if (tiempoBuffInvulnerable <= 0)
-                buffInvulnerable = false;
-        } else if (debuffSlow) {
-            tiempoDebuffSlow -= tiempoJuego;
-            if (tiempoDebuffSlow <= 0) {
-                debuffSlow = false;
-                velx = 400;
-            }
-        } else if (debuffVulnerable) {
-            tiempoDebuffVulnerable -= tiempoJuego;
-            if (tiempoDebuffVulnerable <= 0)
-                debuffVulnerable = false;
-        }
-    }
-
-    public void colisionaConComida(Array<Rectangle> rainDropsPos, Array<Comida> tiposLluviaCaida, int posComida, Sound dropSound) {
-        if(tiposLluviaCaida.get(posComida) instanceof Verdura) { // gota dañina
-            ((Verdura)tiposLluviaCaida.get(posComida)).verduraInteractuaConNiño(this);
-
-            rainDropsPos.removeIndex(posComida);
-            tiposLluviaCaida.removeIndex(posComida);
-        } else { // gota a recolectar
-            ((Dulce)tiposLluviaCaida.get(posComida)).dulceInteractuaConNiño(this);
-
-            dropSound.play();
-
-            rainDropsPos.removeIndex(posComida);
-            tiposLluviaCaida.removeIndex(posComida);
-        }
-    }
-
-
 
 }

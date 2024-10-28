@@ -18,67 +18,69 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 
 public class GameLluvia extends ApplicationAdapter {
-       private OrthographicCamera camera;
-	   private SpriteBatch batch;
-	   private FreeTypeFontGenerator generadorFont;
-	   private  FreeTypeFontParameter parametroFont;
-	   private BitmapFont font;
-	   private boolean gameOver;
+    private OrthographicCamera camera;
+    private SpriteBatch batch;
+    private FreeTypeFontGenerator generadorFont;
+    private  FreeTypeFontParameter parametroFont;
+    private BitmapFont font;
+    private boolean gameOver;
 
-	   private Child child;
-	   private int rachaMaxima = 0;
-	   private int puntuacionMaxima = 0;
-	   private Lluvia lluvia;
-	   private Texture fondoTexture;
-	   private Texture childTexture;
-	   private Texture childTextureHerido;
-       private Texture childTextureInvunerable;
+    private Child child;
+    private int rachaMaxima = 0;
+    private int puntuacionMaxima = 0;
+    private Lluvia lluvia;
+    private Texture fondoTexture;
+    private Texture childTexture;
+    private Texture childTextureHerido;
+    private Texture childTextureInvunerable;
 
 
 	@Override
 	public void create () {
-		  // Se selecciona la fuente que se ocupara
-		  generadorFont = new FreeTypeFontGenerator(Gdx.files.internal("youmurdererbb_reg.ttf"));
-		  parametroFont = new FreeTypeFontParameter();
-		  parametroFont.size = 32;
-		  font = generadorFont.generateFont(parametroFont);
-		  gameOver = false;
+        // Se selecciona la fuente que se ocupara
+        generadorFont = new FreeTypeFontGenerator(Gdx.files.internal("youmurdererbb_reg.ttf"));
+        parametroFont = new FreeTypeFontParameter();
+        parametroFont.size = 32;
+        font = generadorFont.generateFont(parametroFont);
+        gameOver = false;
 
-		  // load the images for the droplet and the bucket, 64x64 pixels each
-		  Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("hurt.ogg"));
-		  // Se cran las textura de child y la clase child
-		  childTexture = new Texture(Gdx.files.internal("imagenChild.png"));
-		  childTextureHerido = new Texture(Gdx.files.internal("imagenChildLlorando.png"));
-          childTextureInvunerable = new Texture(Gdx.files.internal("imagenChildInvunerable.png"));
-		  child = new Child(childTexture,childTextureHerido,childTextureInvunerable,hurtSound);
+        // load the images for the droplet and the bucket, 64x64 pixels each
+        Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("hurt.ogg"));
+        Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
+        // Se cran las textura de child y la clase child
+        childTexture = new Texture(Gdx.files.internal("imagenChild.png"));
+        childTextureHerido = new Texture(Gdx.files.internal("imagenChildLlorando.png"));
+        childTextureInvunerable = new Texture(Gdx.files.internal("imagenChildInvunerable.png"));
 
-	      // load the drop sound effect and the rain background "music"
+        child = new Child(childTexture,childTextureHerido,childTextureInvunerable,hurtSound,dropSound);
 
-          Texture brocoli = new Texture(Gdx.files.internal("brocoli.png"));
-          Texture berenjena = new Texture(Gdx.files.internal("berenjena.png"));
-          Texture coliflor = new Texture(Gdx.files.internal("coliflor.png"));
-          Texture frugele = new Texture(Gdx.files.internal("frugele.png"));
-          Texture superocho = new Texture(Gdx.files.internal("superocho.png"));
-          Texture picodulce = new Texture(Gdx.files.internal("picodulce.png"));
+        // load the drop sound effect and the rain background "music"
 
-          Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-          Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("musicaHalloween.mp3"));
+        Texture brocoli = new Texture(Gdx.files.internal("brocoli.png"));
+        Texture berenjena = new Texture(Gdx.files.internal("berenjena.png"));
+        Texture coliflor = new Texture(Gdx.files.internal("coliflor.png"));
+        Texture frugele = new Texture(Gdx.files.internal("frugele.png"));
+        Texture superocho = new Texture(Gdx.files.internal("superocho.png"));
+        Texture picodulce = new Texture(Gdx.files.internal("picodulce.png"));
 
-          lluvia = new Lluvia(brocoli,berenjena,coliflor,frugele,superocho,picodulce, dropSound, rainMusic);
 
-		  fondoTexture = new Texture(Gdx.files.internal("imagenDeFondo.jpg"));
+        Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("musicaHalloween.mp3"));
 
-	      // camera
-	      camera = new OrthographicCamera();
-	      camera.setToOrtho(false, 800, 480);
-	      batch = new SpriteBatch();
-	      // creacion del tarro
-	      child.crear();
+        lluvia = new Lluvia(brocoli,berenjena,coliflor,frugele,superocho,picodulce, rainMusic);
 
-	      // creacion de la lluvia
-	      lluvia.crear();
+        fondoTexture = new Texture(Gdx.files.internal("imagenDeFondo.jpg"));
+
+        // camera
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 480);
+        batch = new SpriteBatch();
+        // creacion del tarro
+        child.crear();
+
+        // creacion de la lluvia
+        lluvia.crear();
+
 	}
-
 
 
 	@Override
@@ -96,13 +98,13 @@ public class GameLluvia extends ApplicationAdapter {
 
 		if (!gameOver) {
             //dibujar textos
-			font.draw(batch, "Puntos totales: " + child.getPuntos(), 5, 475);
+			font.draw(batch, "Puntos totales: " + child.getPuntaje(), 5, 475);
 			font.draw(batch, "Vidas : " + child.getVidas(), 690, 475);
 			font.draw(batch, "Numero de racha : " + child.getRacha(),590,440 );
 			if(child.getVidas() <= 0)
 				gameOver = true;
 
-			if (!child.estaHerido()) {
+			if (!child.getEstaHerido()) {
 				// movimiento del tarro desde teclado
 	        	child.actualizarMovimiento();
 				// caida de la lluvia
@@ -111,7 +113,7 @@ public class GameLluvia extends ApplicationAdapter {
 		}
 
 		else {
-			int auxPuntaje = child.puntajeMaximo();
+			int auxPuntaje = child.getPuntajeMaximo();
 			int auxRacha = child.getRachaMaxima();
 			if(auxPuntaje > puntuacionMaxima)
 				puntuacionMaxima = auxPuntaje;
@@ -141,7 +143,7 @@ public class GameLluvia extends ApplicationAdapter {
 	}
 	public void reiniciarJuego(){
 		child.setVidas(100);
-    	child.setPuntos(0);
+    	child.setPuntaje(0);
    	 	gameOver = false;
 	}
 
