@@ -14,7 +14,7 @@ public class Berenjena extends Verdura implements Interactuable {
     //-----------------------------------------------------------------
     //   METODOS
     //-----------------------------------------------------------------
-    
+
     /**
      * Aplica la interacción cuando un niño colisiona con una Berenjena
      * Al colisionar, se restan 50 puntos de vida al objeto tipo Child
