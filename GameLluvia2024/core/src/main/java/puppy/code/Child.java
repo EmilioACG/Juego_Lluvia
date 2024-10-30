@@ -11,9 +11,12 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Child implements Movimiento {
     private Rectangle niño;
-    private Texture textureNiñoDefault;
-    private Texture textureNiñoHerido;
-    private Texture textureNiñoInvulnerable;
+    private Texture texturaDefault;
+    private Texture texturaSlow;
+    private Texture texturaHerido;
+    private Texture texturaInvulnerable;
+    private Texture texturaVulnerable;
+    private Texture texturaSlowVulnerable;
     private Sound sonidoHerido;
     private Sound sonidoPuntos;
     private int vidas = 100;
@@ -37,11 +40,15 @@ public class Child implements Movimiento {
     //-----------------------------------------------------------------
     //   CONSTRUCTOR
     //-----------------------------------------------------------------
-    public Child(Texture tex,Texture texHerido,Texture childImagenInvunerable, Sound ss, Sound sonidoPuntos) {
-        textureNiñoDefault = tex;
-        textureNiñoHerido = texHerido;
-        this.textureNiñoInvulnerable = childImagenInvunerable;
-        sonidoHerido = ss;
+    public Child(Texture texturaDefault, Texture texturaSlow, Texture texturaHerido, Texture texturaInvulnerable,
+                 Texture texturaVulnerable, Texture texturaSlowVulnerable, Sound sonidoHerido, Sound sonidoPuntos) {
+        this.texturaDefault = texturaDefault;
+        this.texturaSlow = texturaSlow;
+        this.texturaHerido = texturaHerido;
+        this.texturaInvulnerable = texturaInvulnerable;
+        this.texturaVulnerable = texturaVulnerable;
+        this.texturaSlowVulnerable = texturaSlowVulnerable;
+        this.sonidoHerido = sonidoHerido;
         this.sonidoPuntos = sonidoPuntos;
     }
 
@@ -188,17 +195,25 @@ public class Child implements Movimiento {
     }
 
     public void dibujar(SpriteBatch batch, boolean gameOver) {
-        if (!estaHerido)
-            batch.draw(textureNiñoDefault, niño.x, niño.y,anchoTexture,altoTexture);
-        else if (estaInvunerable) {
-            batch.draw(textureNiñoInvulnerable, niño.x, niño.y,anchoTexture,altoTexture);
-        } else {
-            batch.draw(textureNiñoHerido, niño.x, niño.y+ MathUtils.random(-5,5),anchoTexture,altoTexture);
+        if ( !(estaHerido || estaInvunerable || estaRalentizado || estaVulnerable) ) {
+            batch.draw(texturaDefault, niño.x, niño.y, anchoTexture, altoTexture);
+        } else if (estaVulnerable && estaRalentizado) {
+            batch.draw(texturaSlowVulnerable, niño.x, niño.y,anchoTexture,altoTexture);
+        } else if (estaHerido) {
+            batch.draw(texturaHerido, niño.x, niño.y+ MathUtils.random(-5,5),anchoTexture,altoTexture);
             tiempoHerido--;
             if (tiempoHerido<=0) estaHerido = false;
+        } else if (estaInvunerable) {
+            batch.draw(texturaInvulnerable, niño.x, niño.y, anchoTexture, altoTexture);
+        } else if (estaRalentizado) {
+            batch.draw(texturaSlow, niño.x, niño.y, anchoTexture, altoTexture);
+        } else if (estaVulnerable) {
+            batch.draw(texturaVulnerable, niño.x, niño.y, anchoTexture, altoTexture);
         }
+
+
         if(gameOver)
-            batch.draw(textureNiñoHerido, niño.x, niño.y,anchoTexture,altoTexture);
+            batch.draw(texturaHerido, niño.x, niño.y,anchoTexture,altoTexture);
     }
 
     @Override
@@ -260,7 +275,7 @@ public class Child implements Movimiento {
 
     public void destruir() {
         sonidoPuntos.dispose();
-        textureNiñoDefault.dispose();
+        texturaDefault.dispose();
         sonidoHerido.dispose();
     }
 

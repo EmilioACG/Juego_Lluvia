@@ -30,9 +30,12 @@ public class GameLluvia extends ApplicationAdapter {
     private int puntuacionMaxima = 0;
     private Lluvia lluvia;
     private Texture fondoTexture;
-    private Texture childTexture;
+    private Texture childTextureDefault;
+    private Texture childTextureSlow;
     private Texture childTextureHerido;
     private Texture childTextureInvunerable;
+    private Texture childTextureVulnerable;
+    private Texture childTextureSlowVulnerable;
 
 
 	@Override
@@ -48,11 +51,15 @@ public class GameLluvia extends ApplicationAdapter {
         Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("hurt.ogg"));
         Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
         // Se cran las textura de child y la clase child
-        childTexture = new Texture(Gdx.files.internal("imagenChild.png"));
+        childTextureDefault = new Texture(Gdx.files.internal("imagenChild.png"));
+        childTextureSlow = new Texture(Gdx.files.internal("imagenChildSlow.png"));
         childTextureHerido = new Texture(Gdx.files.internal("imagenChildLlorando.png"));
-        childTextureInvunerable = new Texture(Gdx.files.internal("imagenChildInvunerable.png"));
+        childTextureInvunerable = new Texture(Gdx.files.internal("imagenChildInvulnerable.png"));
+        childTextureVulnerable = new Texture(Gdx.files.internal("imagenChildVulnerable.png"));
+        childTextureSlowVulnerable = new Texture(Gdx.files.internal("imagenChildSlowVulnerable.png"));
 
-        child = new Child(childTexture,childTextureHerido,childTextureInvunerable,hurtSound,dropSound);
+        child = new Child(childTextureDefault,childTextureSlow,childTextureHerido,childTextureInvunerable,
+                            childTextureVulnerable,childTextureSlowVulnerable,hurtSound,dropSound);
 
         // load the drop sound effect and the rain background "music"
 
