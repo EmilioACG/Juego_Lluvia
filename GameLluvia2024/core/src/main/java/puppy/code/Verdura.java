@@ -14,11 +14,13 @@ public abstract class Verdura extends Comida{
     //-----------------------------------------------------------------
     //   METODOS
     //-----------------------------------------------------------------
-    public void interacturarGenerico(Child niño, int fuerza) {
-        niño.dañar(getAtributoBasico() * fuerza);
+    protected void interactuarGenerico(Child niño, int stat) {
+        niño.dañar(stat);
     }
 
     public abstract void interactuar(Child niño);
 
     public abstract void texturizar(Texture textura);
+
+    protected abstract int calcularAtributoDado();
 }

@@ -24,11 +24,14 @@ public class Coliflor extends Verdura {
      */
     @Override
     public void interactuar(Child niño) {
-        interacturarGenerico(niño,2);
         niño.setEstaRalentizado(true, 5f);
     }
 
     public void texturizar(Texture textura) {
         setTexture(textura);
+    }
+
+    protected int calcularAtributoDado(){
+        return getAtributoBasico() * 2;
     }
 }

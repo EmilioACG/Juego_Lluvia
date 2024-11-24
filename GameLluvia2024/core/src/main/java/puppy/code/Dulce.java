@@ -14,12 +14,13 @@ public abstract class Dulce extends Comida {
     //-----------------------------------------------------------------
     //   METODOS
     //-----------------------------------------------------------------
-    public void interactuarGenerico(Child niño, int fuerza) {
-        niño.sumarPuntos(getAtributoBasico() * fuerza);
+    protected void interactuarGenerico(Child niño, int stat) {
+        niño.sumarPuntos(stat);
     }
-
-    public abstract void interactuar(Child niño);
 
     public abstract void texturizar(Texture textura);
 
+    public abstract void interactuar(Child niño);
+
+    protected abstract int calcularAtributoDado();
 }

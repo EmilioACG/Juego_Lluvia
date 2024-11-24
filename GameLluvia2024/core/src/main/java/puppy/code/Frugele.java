@@ -22,11 +22,13 @@ public class Frugele extends Dulce {
      * @param niño Objeto de tipo Child que colisionó con el objeto Dulce
      */
     @Override
-    public void interactuar(Child niño) {
-        interactuarGenerico(niño,1);
-    }
+    public void interactuar(Child niño) {}
 
     public void texturizar(Texture textura) {
         setTexture(textura);
+    }
+
+    protected int calcularAtributoDado(){
+        return getAtributoBasico();
     }
 }

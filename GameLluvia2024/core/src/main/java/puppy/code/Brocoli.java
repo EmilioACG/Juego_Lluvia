@@ -22,11 +22,13 @@ public class Brocoli extends Verdura {
      * @param niño Objeto de tipo Child que colisionó con un un objeto de tipo Brocoli
      */
     @Override
-    public void interactuar(Child niño) {
-        interacturarGenerico(niño,1);
-    }
+    public void interactuar(Child niño) {}
 
     public void texturizar(Texture textura) {
         setTexture(textura);
+    }
+
+    protected int calcularAtributoDado(){
+        return getAtributoBasico();
     }
 }

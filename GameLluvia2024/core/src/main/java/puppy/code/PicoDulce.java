@@ -24,12 +24,15 @@ public class PicoDulce extends Dulce {
      */
     @Override
     public void interactuar(Child niño) {
-        interactuarGenerico(niño,5);
         niño.setEstaInvunerable(true, 5f);
     }
 
     public void texturizar(Texture textura) {
         setTexture(textura);
+    }
+
+    protected int calcularAtributoDado(){
+        return getAtributoBasico() * 5;
     }
 
 }

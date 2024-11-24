@@ -107,7 +107,7 @@ public class Lluvia implements Movimiento {
 
             //comida colisiona con niño
             if(raindrop.overlaps(niño.getNiño())) {
-                tiposLluviaCaida.get(i).interactuar(niño);
+                tiposLluviaCaida.get(i).colision(niño);
                 tiposLluviaCaida.removeIndex(i);
             }
         }

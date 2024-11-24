@@ -45,9 +45,20 @@ public abstract class Comida implements Interactuable {
     }
 
     //-----------------------------------------------------------------
-    //   METODOS
+    //   TEMPLATE METHOD
     //-----------------------------------------------------------------
+    public final void colision(Child niño) {
+        int statEfecto = calcularAtributoDado();
+        interactuarGenerico(niño,statEfecto);
+        interactuar(niño);
+    }
+
     public abstract void interactuar(Child niño);
+    protected abstract int calcularAtributoDado();
+    protected abstract void interactuarGenerico(Child niño, int stat);
+
+
+
 
 
 }

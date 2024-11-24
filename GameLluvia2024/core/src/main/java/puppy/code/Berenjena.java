@@ -24,11 +24,14 @@ public class Berenjena extends Verdura implements Interactuable {
      */
     @Override
     public void interactuar(Child niño) {
-        interacturarGenerico(niño,5);
         niño.setEstaVulnerable(true, 5f);
     }
 
     public void texturizar(Texture textura) {
         setTexture(textura);
+    }
+
+    protected int calcularAtributoDado(){
+        return getAtributoBasico() * 5;
     }
 }
