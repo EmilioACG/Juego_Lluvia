@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Lluvia implements Movimiento {
+    private static Lluvia instance;
     private Array<Comida> tiposLluviaCaida;
     private long lastDropTime;
     private Texture brocoli, berenjena, coliflor, frugele, superocho, picodulce;
@@ -18,7 +19,7 @@ public class Lluvia implements Movimiento {
     //-----------------------------------------------------------------
     //   CONSTRUCTOR
     //-----------------------------------------------------------------
-	public Lluvia(Texture brocoli, Texture berenjena, Texture coliflor,
+	private Lluvia(Texture brocoli, Texture berenjena, Texture coliflor,
                   Texture frugele, Texture superocho, Texture picodulce, Music rainMusic) {
         this.brocoli = brocoli;
         this.berenjena = berenjena;
@@ -28,6 +29,14 @@ public class Lluvia implements Movimiento {
         this.picodulce = picodulce;
         this.rainMusic = rainMusic;
 	}
+
+    public static Lluvia getInstance(Texture brocoli, Texture berenjena, Texture coliflor,
+                                     Texture frugele, Texture superocho, Texture picodulce, Music rainMusic) {
+        if (instance == null) {
+            instance = new Lluvia(brocoli,berenjena,coliflor,frugele,superocho,picodulce, rainMusic);
+        }
+        return instance;
+    }
 
     //-----------------------------------------------------------------
     //   GETTER's

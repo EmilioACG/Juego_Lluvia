@@ -67,7 +67,7 @@ public class GameLluvia extends ApplicationAdapter {
 
         Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("musicaHalloween.mp3"));
 
-        lluvia = new Lluvia(brocoli,berenjena,coliflor,frugele,superocho,picodulce, rainMusic);
+        lluvia = Lluvia.getInstance(brocoli,berenjena,coliflor,frugele,superocho,picodulce, rainMusic);
 
         fondoTexture = new Texture(Gdx.files.internal("imagenDeFondo.jpg"));
 
@@ -139,7 +139,7 @@ public class GameLluvia extends ApplicationAdapter {
 
 		batch.end();
 		if (gameOver && Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-            reiniciarJuego();  
+            reiniciarJuego();
         }
 	}
 	public void reiniciarJuego(){
