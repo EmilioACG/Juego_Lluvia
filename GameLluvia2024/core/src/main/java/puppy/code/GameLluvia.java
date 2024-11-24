@@ -30,12 +30,7 @@ public class GameLluvia extends ApplicationAdapter {
     private int puntuacionMaxima = 0;
     private Lluvia lluvia;
     private Texture fondoTexture;
-    private Texture childTextureDefault;
-    private Texture childTextureSlow;
-    private Texture childTextureHerido;
-    private Texture childTextureInvunerable;
-    private Texture childTextureVulnerable;
-    private Texture childTextureSlowVulnerable;
+    private EstrategiaMovimiento estrategiaMovimiento;
 
 
 	@Override
@@ -47,19 +42,18 @@ public class GameLluvia extends ApplicationAdapter {
         font = generadorFont.generateFont(parametroFont);
         gameOver = false;
 
-        // load the images for the droplet and the bucket, 64x64 pixels each
-        Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("hurt.ogg"));
-        Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-        // Se cran las textura de child y la clase child
-        childTextureDefault = new Texture(Gdx.files.internal("imagenChild.png"));
-        childTextureSlow = new Texture(Gdx.files.internal("imagenChildSlow.png"));
-        childTextureHerido = new Texture(Gdx.files.internal("imagenChildLlorando.png"));
-        childTextureInvunerable = new Texture(Gdx.files.internal("imagenChildInvulnerable.png"));
-        childTextureVulnerable = new Texture(Gdx.files.internal("imagenChildVulnerable.png"));
-        childTextureSlowVulnerable = new Texture(Gdx.files.internal("imagenChildSlowVulnerable.png"));
+        ChildBuilder childBuilder = new ChildBuilder()
+            .setTexturaDefault(new Texture(Gdx.files.internal("imagenChild.png")))
+            .setTexturaSlow(new Texture(Gdx.files.internal("imagenChildSlow.png")))
+            .setTexturaHerido(new Texture(Gdx.files.internal("imagenChildLlorando.png")))
+            .setTexturaInvulnerable(new Texture(Gdx.files.internal("imagenChildInvulnerable.png")))
+            .setTexturaVulnerable(new Texture(Gdx.files.internal("imagenChildVulnerable.png")))
+            .setTexturaSlowVulnerable(new Texture(Gdx.files.internal("imagenChildSlowVulnerable.png")))
+            .setSonidoHerido(Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")))
+            .setSonidoPuntos(Gdx.audio.newSound(Gdx.files.internal("drop.wav")))
+            .setEstrategiaMovimiento(estrategiaMovimiento);
 
-        child = new Child(childTextureDefault,childTextureSlow,childTextureHerido,childTextureInvunerable,
-                            childTextureVulnerable,childTextureSlowVulnerable,hurtSound,dropSound);
+        child = childBuilder.build();
 
         // load the drop sound effect and the rain background "music"
 
@@ -145,12 +139,13 @@ public class GameLluvia extends ApplicationAdapter {
 
 		batch.end();
 		if (gameOver && Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-            reiniciarJuego();
+            reiniciarJuego();  
         }
 	}
 	public void reiniciarJuego(){
 		child.setVidas(100);
     	child.setPuntaje(0);
+        child.reiniciar();
    	 	gameOver = false;
 	}
 

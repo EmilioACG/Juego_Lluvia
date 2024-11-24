@@ -1,7 +1,5 @@
 package puppy.code;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,7 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
 
-public class Child implements Movimiento {
+public class Child {
     private Rectangle niño;
     private Texture texturaDefault;
     private Texture texturaSlow;
@@ -36,12 +34,14 @@ public class Child implements Movimiento {
     private float tiempoDebuffVulnerable;
     private float altoTexture = 110f;
     private float anchoTexture = 90f;
+    private EstrategiaMovimiento estrategiaMovimiento;
+    private MovimientoRelentizado estrategiaMovimientoReducido;
 
     //-----------------------------------------------------------------
     //   CONSTRUCTOR
     //-----------------------------------------------------------------
     public Child(Texture texturaDefault, Texture texturaSlow, Texture texturaHerido, Texture texturaInvulnerable,
-                 Texture texturaVulnerable, Texture texturaSlowVulnerable, Sound sonidoHerido, Sound sonidoPuntos) {
+                 Texture texturaVulnerable, Texture texturaSlowVulnerable, Sound sonidoHerido, Sound sonidoPuntos,EstrategiaMovimiento estrategiaInicial) {
         this.texturaDefault = texturaDefault;
         this.texturaSlow = texturaSlow;
         this.texturaHerido = texturaHerido;
@@ -50,6 +50,8 @@ public class Child implements Movimiento {
         this.texturaSlowVulnerable = texturaSlowVulnerable;
         this.sonidoHerido = sonidoHerido;
         this.sonidoPuntos = sonidoPuntos;
+        this.estrategiaMovimiento = estrategiaInicial != null ? estrategiaInicial : new MovimientoNormal(velx);
+        this.estrategiaMovimientoReducido = new MovimientoRelentizado(velx);
     }
 
     //-----------------------------------------------------------------
@@ -109,7 +111,6 @@ public class Child implements Movimiento {
     public float getAnchoTexture() {
         return anchoTexture;
     }
-
     //-----------------------------------------------------------------
     //   SETTER's
     //-----------------------------------------------------------------
@@ -216,14 +217,11 @@ public class Child implements Movimiento {
             batch.draw(texturaHerido, niño.x, niño.y,anchoTexture,altoTexture);
     }
 
-    @Override
     public void actualizarMovimiento() {
-        //movimiento desde teclado
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) niño.x -= velx * Gdx.graphics.getDeltaTime();
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) niño.x += velx * Gdx.graphics.getDeltaTime();
-        // que no se salga de los bordes izq y der
-        if(niño.x < 0) niño.x = 0;
-        if(niño.x > 800 - anchoTexture) niño.x = 800 - anchoTexture;
+        if(estaRalentizado)
+            estrategiaMovimientoReducido.mover(niño, anchoTexture);
+        else
+            estrategiaMovimiento.mover(niño,anchoTexture);
     }
 
     public void actualizadorEstados(float tiempoJuego) {
@@ -270,13 +268,31 @@ public class Child implements Movimiento {
         }
     }
 
-    @Override
-    public void actualizarMovimiento(Child niño){}
-
     public void destruir() {
         sonidoPuntos.dispose();
         texturaDefault.dispose();
         sonidoHerido.dispose();
+    }
+
+    public void reiniciar() {
+        niño.x = (float) (800 / 2 - 64 / 2); // Posición inicial
+        niño.y = 0; 
+    
+        vidas = 100;
+        puntaje = 0;
+        puntajeMaximo = 0;
+        racha = 0;
+        rachaMaxima = 0;
+        velx = 400;
+    
+        estaHerido = false;
+        tiempoHerido = 0;
+        estaInvunerable = false;
+        tiempoBuffInvulnerable = 0;
+        estaRalentizado = false;
+        tiempoDebuffRalentizado = 0;
+        estaVulnerable = false;
+        tiempoDebuffVulnerable = 0;
     }
 
 }
